@@ -3,7 +3,7 @@
 
 __author__ = "Marius Wörfel aka Raboro"
 __email__ = "raborogit@gmail.com"
-__status__ = "Production 07/10/2022"
+__status__ = "Production 07/11/2022"
 
 from gui import GuiMastermind
 

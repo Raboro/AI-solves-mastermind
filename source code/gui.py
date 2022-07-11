@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 import PySimpleGUI as sg
+from ai_control import AiControl
 
 
 class Layout:
@@ -140,12 +141,20 @@ class GuiMastermind:
 
             if event == "-SUBMIT-":
                 SECRET_COMBINATION = self.colors_buttons  
-                if RULE != []: 
-                    print(RULE)
-                    if GuiLogic.is_combination_in_rules(SECRET_COMBINATION, RULE[0]):
-                        pass
-                    else:
-                        raise Exception("not followed the rules")    
+                
+                if RULE == []:
+                    RULE = [""]
+
+                if GuiLogic.is_combination_in_rules(SECRET_COMBINATION, RULE[0]):
+                    self.window["-COMBINATION0-"].update(disabled=True)
+                    self.window["-COMBINATION1-"].update(disabled=True)
+                    self.window["-COMBINATION2-"].update(disabled=True)
+                    self.window["-COMBINATION3-"].update(disabled=True)
+                    self.window["-SUBMIT-"].update(disabled=True)
+                    AI = AiControl(rule=RULE[0], colors=COLORS)
+                    AI.main()
+                else:
+                    raise Exception("not followed the rules")    
 
         self.window.close()
 
@@ -235,3 +244,6 @@ class GuiLogic:
                         return False
 
             return True 
+
+        else:
+            return True
