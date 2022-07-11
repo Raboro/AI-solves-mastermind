@@ -142,7 +142,7 @@ class GuiMastermind:
                 SECRET_COMBINATION = self.colors_buttons  
                 if RULE != []: 
                     print(RULE)
-                    if GuiLogic.is_combination_is_in_rules(SECRET_COMBINATION, RULE[0]):
+                    if GuiLogic.is_combination_in_rules(SECRET_COMBINATION, RULE[0]):
                         pass
                     else:
                         raise Exception("not followed the rules")    
@@ -198,7 +198,7 @@ class GuiLogic:
         return colors_button
 
     @staticmethod
-    def is_combination_is_in_rules(combination: list[str], rule: list[str]):
+    def is_combination_in_rules(combination: list[str], rule: list[str]):
         if rule == "-RULEONLEYONECOLOR-":
             if len(set(combination)) == 1:
                 return True
