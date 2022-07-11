@@ -141,7 +141,7 @@ class GuiMastermind:
 
             if event == "-SUBMIT-":
                 SECRET_COMBINATION = self.colors_buttons  
-                
+
                 if RULE == []:
                     RULE = [""]
 
@@ -151,7 +151,7 @@ class GuiMastermind:
                     self.window["-COMBINATION2-"].update(disabled=True)
                     self.window["-COMBINATION3-"].update(disabled=True)
                     self.window["-SUBMIT-"].update(disabled=True)
-                    AI = AiControl(rule=RULE[0], colors=COLORS)
+                    AI = AiControl(rule=RULE[0], colors=COLORS, SECRET_COMBINATION=SECRET_COMBINATION)
                     AI.main()
                 else:
                     raise Exception("not followed the rules")    
