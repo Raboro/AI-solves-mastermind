@@ -116,9 +116,12 @@ class GuiMastermind:
                 break
 
             if event == "-SUBMITRULESANDCOLORS-":
-                RULES = []
+                RULE = []
                 if any(value == True for value in values.values()):
-                    RULES = [key for key, value in values.items() if value == True and key[1] == "R"]
+                    RULE = [key for key, value in values.items() if value == True and key[1] == "R"]
+
+                if len(RULE) > 1:
+                    raise Exception("Too many rules")
 
                 colors = [key for key, value in values.items() if value == True and key[1] == "C"]
                 if colors == []:
@@ -136,7 +139,13 @@ class GuiMastermind:
                 self.colors_buttons = GuiLogic.change_button_color(button, self.window, self.colors_buttons, COLORS) 
 
             if event == "-SUBMIT-":
-                SECRET_COMBINATION = self.colors_buttons             
+                SECRET_COMBINATION = self.colors_buttons  
+                if RULE != []: 
+                    print(RULE)
+                    if GuiLogic.is_combination_is_in_rules(SECRET_COMBINATION, RULE[0]):
+                        pass
+                    else:
+                        raise Exception("not followed the rules")    
 
         self.window.close()
 
@@ -187,3 +196,42 @@ class GuiLogic:
         window[button[0]].update(button_color=colors_button[button[1]])
 
         return colors_button
+
+    @staticmethod
+    def is_combination_is_in_rules(combination: list[str], rule: list[str]):
+        if rule == "-RULEONLEYONECOLOR-":
+            if len(set(combination)) == 1:
+                return True
+            return False
+
+        elif rule == "-RULEEVERYCOLORONE-":
+            for index, combination_element in enumerate(combination):
+                for element in combination[index+1:]:
+                    if combination_element == element:
+                        return False
+
+            return True 
+
+        elif rule == "-RULECOLORMAXTWOTIMES-":
+            for index, combination_element in enumerate(combination):
+                counter = 0
+                for element in combination[index+1:]:
+                    if combination_element == element:
+                        counter += 1
+
+                    if counter > 1:
+                        return False
+
+            return True 
+
+        elif rule == "-RULECOLORMAXTHREETIMES-":
+            for index, combination_element in enumerate(combination):
+                counter = 0
+                for element in combination[index+1:]:
+                    if combination_element == element:
+                        counter += 1
+
+                    if counter > 2:
+                        return False
+
+            return True 
